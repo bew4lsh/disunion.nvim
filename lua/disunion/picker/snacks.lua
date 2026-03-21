@@ -24,7 +24,7 @@ function M.open_marks(marks)
   snacks.picker({
     title = "Disunion Marks",
     items = items,
-    format = function(item) return item.text end,
+    format = function(item) return { { item.text } } end,
     confirm = function(picker, item)
       picker:close()
       if item and util.buf_is_valid(item.item.bufnr) then
@@ -49,7 +49,7 @@ function M.open_history(entries)
   snacks.picker({
     title = "Disunion History",
     items = items,
-    format = function(item) return item.text end,
+    format = function(item) return { { item.text } } end,
     confirm = function(picker, item)
       picker:close()
       if item then
