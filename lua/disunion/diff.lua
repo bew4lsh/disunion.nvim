@@ -45,12 +45,14 @@ function M.open(target_bufnr, opts)
   apply_diffopt()
 
   local target_win = find_window_for_buf(target_bufnr)
+  local created_win = false
   if not target_win then
     local split_dir = opts.split or cfg.split
     local cmd = split_dir == "horizontal" and "split" or "vsplit"
     vim.cmd(cmd)
     target_win = vim.api.nvim_get_current_win()
     vim.api.nvim_win_set_buf(target_win, target_bufnr)
+    created_win = true
   end
 
   vim.api.nvim_win_call(current_win, function() vim.cmd("diffthis") end)
@@ -58,18 +60,27 @@ function M.open(target_bufnr, opts)
 
   state.diff_windows[current_win] = true
   state.diff_windows[target_win] = true
+  if created_win then
+    state.diff_created_wins[target_win] = true
+  end
 
   vim.api.nvim_create_autocmd("WinClosed", {
     group = state.augroup_id,
     pattern = tostring(current_win),
     once = true,
-    callback = function() state.diff_windows[current_win] = nil end,
+    callback = function()
+      state.diff_windows[current_win] = nil
+      state.diff_created_wins[current_win] = nil
+    end,
   })
   vim.api.nvim_create_autocmd("WinClosed", {
     group = state.augroup_id,
     pattern = tostring(target_win),
     once = true,
-    callback = function() state.diff_windows[target_win] = nil end,
+    callback = function()
+      state.diff_windows[target_win] = nil
+      state.diff_created_wins[target_win] = nil
+    end,
   })
 
   local focus = opts.auto_focus or cfg.auto_focus
@@ -113,7 +124,13 @@ function M.stop()
       stopped = stopped + 1
     end
   end
+  for win, _ in pairs(state.diff_created_wins) do
+    if vim.api.nvim_win_is_valid(win) then
+      vim.api.nvim_win_close(win, false)
+    end
+  end
   state.diff_windows = {}
+  state.diff_created_wins = {}
   if stopped > 0 then
     util.notify("Diff stopped")
   else

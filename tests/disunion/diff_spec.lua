@@ -95,6 +95,17 @@ describe("diff", function()
     assert.equals(0, tracked)
   end)
 
+  it("stop() closes the split that disunion created", function()
+    local a = make_buf("/tmp/diff_close1.lua")
+    local b = make_buf("/tmp/diff_close2.lua")
+    set_current_buf(a)
+    diff.open(b)
+    assert.equals(2, count_windows())
+
+    diff.stop()
+    assert.equals(1, count_windows())
+  end)
+
   it("stop() warns when no active diff", function()
     assert.has_no.errors(function()
       diff.stop()
