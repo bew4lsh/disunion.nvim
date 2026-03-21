@@ -34,14 +34,14 @@ normal editing.
   "lia/disunion.nvim",
   keys = {
     { "<leader>dm", desc = "Mark buffer" },
-    { "<leader>dd", desc = "Diff with mark" },
+    { "<leader>dD", desc = "Diff with mark" },
     { "<leader>dx", desc = "Clear mark" },
     { "<leader>dq", desc = "Stop diff" },
     { "<leader>dc", desc = "Clipboard diff" },
     { "<leader>ds", desc = "Scratch diff" },
     { "<leader>dM", desc = "List marks" },
     { "<leader>dh", desc = "Mark history" },
-    { "<leader>dp", desc = "Pick files to diff" },
+    { "<leader>dd", desc = "Pick files to diff" },
   },
   cmd = "Disunion",
   opts = {},
@@ -56,14 +56,14 @@ Shown with defaults:
 require("disunion").setup({
   keymaps = {
     mark = "<leader>dm",
-    diff = "<leader>dd",
+    diff = "<leader>dD",
     clear = "<leader>dx",
     stop = "<leader>dq",
     clipboard = "<leader>dc",
     scratch = "<leader>ds",
     marks_list = "<leader>dM",
     history = "<leader>dh",
-    pick_diff = "<leader>dp",
+    pick_diff = "<leader>dd",
   },
   history_size = 10,
   consume_mark = true,           -- clear anonymous mark after diffing

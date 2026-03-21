@@ -3,14 +3,14 @@ local M = {}
 local defaults = {
   keymaps = {
     mark = "<leader>dm",
-    diff = "<leader>dd",
+    diff = "<leader>dD",
     clear = "<leader>dx",
     stop = "<leader>dq",
     clipboard = "<leader>dc",
     scratch = "<leader>ds",
     marks_list = "<leader>dM",
     history = "<leader>dh",
-    pick_diff = "<leader>dp",
+    pick_diff = "<leader>dd",
   },
   history_size = 10,
   consume_mark = true,
