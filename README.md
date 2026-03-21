@@ -41,6 +41,7 @@ normal editing.
     { "<leader>ds", desc = "Scratch diff" },
     { "<leader>dM", desc = "List marks" },
     { "<leader>dh", desc = "Mark history" },
+    { "<leader>dp", desc = "Pick files to diff" },
   },
   cmd = "Disunion",
   opts = {},
@@ -62,6 +63,7 @@ require("disunion").setup({
     scratch = "<leader>ds",
     marks_list = "<leader>dM",
     history = "<leader>dh",
+    pick_diff = "<leader>dp",
   },
   history_size = 10,
   consume_mark = true,           -- clear anonymous mark after diffing
@@ -95,6 +97,7 @@ Everything is available through the `:Disunion` command with tab completion:
 | `:Disunion scratch`      | Open empty scratch buffer in diff mode         |
 | `:Disunion marks`        | Browse named marks (picker)                    |
 | `:Disunion history`      | Browse mark history (picker)                   |
+| `:Disunion pick`         | Pick files to diff (picker)                    |
 
 ## Statusline
 

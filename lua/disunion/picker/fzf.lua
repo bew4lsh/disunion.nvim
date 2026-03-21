@@ -11,6 +11,22 @@ function M.open_as_diff(selected)
   diff.open(bufnr)
 end
 
+function M.open_files(files, origin_bufnr)
+  local fzf = require("fzf-lua")
+  local diff = require("disunion.diff")
+  fzf.fzf_exec(files, {
+    prompt = "Disunion Pick> ",
+    fzf_opts = { ["--multi"] = 2 },
+    actions = {
+      ["default"] = function(selected)
+        if #selected > 0 then
+          diff.diff_files(selected, origin_bufnr)
+        end
+      end,
+    },
+  })
+end
+
 function M.open_marks(marks)
   local fzf = require("fzf-lua")
   local items = {}

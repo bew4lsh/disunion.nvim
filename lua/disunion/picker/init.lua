@@ -45,6 +45,27 @@ function M.open_marks()
   backend.open_marks(marks)
 end
 
+local function list_files()
+  local result = vim.fn.systemlist("git ls-files --cached --others --exclude-standard")
+  if vim.v.shell_error ~= 0 then
+    result = vim.fn.glob("**/*", false, true)
+    result = vim.tbl_filter(function(f) return vim.fn.isdirectory(f) == 0 end, result)
+  end
+  return result
+end
+
+function M.open_files()
+  local files = list_files()
+  if #files == 0 then
+    util.notify("No files found", vim.log.levels.WARN)
+    return
+  end
+  local origin_bufnr = vim.api.nvim_get_current_buf()
+  local backend = get_backend()
+  if not backend then return end
+  backend.open_files(files, origin_bufnr)
+end
+
 function M.open_history()
   local entries = require("disunion.history").entries()
   if #entries == 0 then

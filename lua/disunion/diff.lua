@@ -98,6 +98,25 @@ function M.open(target_bufnr, opts)
   return true
 end
 
+local function load_buf(path)
+  local bufnr = vim.fn.bufadd(path)
+  vim.fn.bufload(bufnr)
+  return bufnr
+end
+
+function M.diff_files(paths, origin_bufnr)
+  if #paths == 1 then
+    local picked_buf = load_buf(paths[1])
+    vim.api.nvim_win_set_buf(vim.api.nvim_get_current_win(), origin_bufnr)
+    M.open(picked_buf)
+  elseif #paths == 2 then
+    local left_buf = load_buf(paths[1])
+    local right_buf = load_buf(paths[2])
+    vim.api.nvim_win_set_buf(vim.api.nvim_get_current_win(), right_buf)
+    M.open(left_buf)
+  end
+end
+
 function M.diff_with_mark()
   local bufnr = marks.get()
   if not bufnr then

@@ -10,6 +10,7 @@ local defaults = {
     scratch = "<leader>ds",
     marks_list = "<leader>dM",
     history = "<leader>dh",
+    pick_diff = "<leader>dp",
   },
   history_size = 10,
   consume_mark = true,

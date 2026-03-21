@@ -17,6 +17,7 @@ local subcommands = {
   scratch = function() require("disunion").scratch_diff() end,
   marks = function() require("disunion").list_marks() end,
   history = function() require("disunion").history() end,
+  pick = function() require("disunion").pick_diff() end,
 }
 
 local subcommand_names = vim.tbl_keys(subcommands)
@@ -72,6 +73,7 @@ function M.register()
   map(keymaps.scratch, function() require("disunion").scratch_diff() end, "Scratch diff")
   map(keymaps.marks_list, function() require("disunion").list_marks() end, "List marks")
   map(keymaps.history, function() require("disunion").history() end, "Mark history")
+  map(keymaps.pick_diff, function() require("disunion").pick_diff() end, "Pick files to diff")
 end
 
 return M

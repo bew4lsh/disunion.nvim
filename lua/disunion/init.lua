@@ -41,6 +41,10 @@ function M.history()
   require("disunion.picker").open_history()
 end
 
+function M.pick_diff()
+  require("disunion.picker").open_files()
+end
+
 function M.statusline()
   return require("disunion.statusline").get()
 end
