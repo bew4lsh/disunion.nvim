@@ -1,0 +1,50 @@
+local config = require("disunion.config")
+
+describe("config", function()
+  before_each(function()
+    config.apply({})
+  end)
+
+  it("get() returns defaults", function()
+    local cfg = config.get()
+    assert.equals(10, cfg.history_size)
+    assert.is_true(cfg.consume_mark)
+    assert.equals("vertical", cfg.split)
+    assert.equals("current", cfg.auto_focus)
+    assert.is_false(cfg.auto_scroll_to_hunk)
+    assert.is_true(cfg.notify)
+    assert.is_nil(cfg.picker)
+    assert.equals("<leader>dm", cfg.keymaps.mark)
+    assert.equals("⊕ ", cfg.statusline.mark_icon)
+    assert.equals("⇔ ", cfg.statusline.diff_icon)
+    assert.is_true(cfg.statusline.show_name)
+  end)
+
+  it("apply({}) preserves defaults", function()
+    config.apply({})
+    local cfg = config.get()
+    assert.equals(10, cfg.history_size)
+    assert.equals("vertical", cfg.split)
+    assert.is_true(cfg.statusline.show_name)
+  end)
+
+  it("apply() deep-merges overrides", function()
+    config.apply({
+      history_size = 20,
+      statusline = { show_name = false },
+    })
+    local cfg = config.get()
+    assert.equals(20, cfg.history_size)
+    assert.is_false(cfg.statusline.show_name)
+    assert.equals("⊕ ", cfg.statusline.mark_icon)
+    assert.equals("vertical", cfg.split)
+  end)
+
+  it("repeated apply() does not bleed between calls", function()
+    config.apply({ history_size = 50 })
+    assert.equals(50, config.get().history_size)
+
+    config.apply({})
+    assert.equals(10, config.get().history_size)
+  end)
+end)
