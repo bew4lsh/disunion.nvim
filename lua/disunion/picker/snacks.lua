@@ -23,18 +23,12 @@ function M.open_files(files, origin_bufnr)
     title = "Disunion Pick",
     items = items,
     format = function(item) return { { item.text } } end,
-    multi = true,
-    confirm = function(picker, current)
-      local selected = picker:selected()
-      local paths
-      if #selected >= 2 then
-        paths = { selected[1].file, selected[2].file }
-      elseif #selected == 1 then
-        paths = { selected[1].file }
-      elseif current then
-        paths = { current.file }
-      else
-        return
+    confirm = function(picker)
+      local selected = picker:selected({ fallback = true })
+      if #selected == 0 then return end
+      local paths = {}
+      for i = 1, math.min(#selected, 2) do
+        paths[i] = selected[i].file
       end
       picker:close()
       diff.diff_files(paths, origin_bufnr)
