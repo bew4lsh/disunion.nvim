@@ -48,7 +48,7 @@ function M.open(target_bufnr, opts)
   local created_win = false
   if not target_win then
     local split_dir = opts.split or cfg.split
-    local cmd = split_dir == "horizontal" and "split" or "vsplit"
+    local cmd = split_dir == "horizontal" and "leftabove split" or "leftabove vsplit"
     vim.cmd(cmd)
     target_win = vim.api.nvim_get_current_win()
     vim.api.nvim_win_set_buf(target_win, target_bufnr)
