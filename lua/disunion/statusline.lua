@@ -20,11 +20,8 @@ function M.get()
       return cfg.diff_icon .. "diff"
     end
     local names = {}
-    for win, _ in pairs(state.diff_windows) do
-      if vim.api.nvim_win_is_valid(win) then
-        local bufnr = vim.api.nvim_win_get_buf(win)
-        names[#names + 1] = util.buf_name(bufnr)
-      end
+    for _, bufnr in ipairs(state.diff_pair) do
+      names[#names + 1] = util.buf_name(bufnr)
     end
     return cfg.diff_icon .. table.concat(names, " ↔ ")
   end

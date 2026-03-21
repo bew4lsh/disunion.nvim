@@ -60,6 +60,7 @@ function M.open(target_bufnr, opts)
 
   state.diff_windows[current_win] = true
   state.diff_windows[target_win] = true
+  state.diff_pair = { target_bufnr, current_buf }
   if created_win then
     state.diff_created_wins[target_win] = true
   end
@@ -131,6 +132,7 @@ function M.stop()
   end
   state.diff_windows = {}
   state.diff_created_wins = {}
+  state.diff_pair = {}
   if stopped > 0 then
     util.notify("Diff stopped")
   else
